@@ -48,11 +48,11 @@ Install requirements for GO, to build the binary.
 
 Clone the repo
 
-    git clone git@github.com:rentpath/rpenv.git
+    git clone git@github.com:rentpath/rpenv.git "$(go env GOPATH)/src/rpenv"
 
 Build the go binary
 
-    cd rpenv
+    cd "$(go env GOPATH)/src/rpenv"
     go build
 
 Set up build environment

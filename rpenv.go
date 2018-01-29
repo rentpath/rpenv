@@ -14,7 +14,7 @@ import (
 	"github.com/jimlawless/cfg"
 )
 
-const AppVersion = "2.0.1"
+const AppVersion = "3.0.1"
 const ConfigPath = ".config/.rpenv"
 
 func main() {
