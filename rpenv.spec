@@ -7,7 +7,7 @@ URL: https://github.com/rentpath/rpenv
 BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 License:  Copyright
 
-BuildRequires: golang >= 1.4.2
+BuildRequires: golang >= 1.9.3
 
 %description
 displays env vars set from existing environment and loaded from config file in
