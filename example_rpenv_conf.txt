@@ -1,0 +1,5 @@
+# example ~/.config/.rpenv
+
+ci=<YOUR_CI_CONF_URL_HERE>
+qa=<YOUR_QA_CONF_URL_HERE>
+prod=<YOUR_PROD_CONF_URL_HERE>
