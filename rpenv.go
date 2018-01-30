@@ -131,6 +131,11 @@ func getConfig(configFile string, env string) string {
 	mymap := make(map[string]string)
 	err := cfg.Load(configFile, mymap)
 
+	if mymap["ci"] == "" || mymap["qa"] == "" || mymap["prod"] == "" {
+		println("You must have a ~/.config/.rpenv with ci, qa, and prod keys")
+		os.Exit(1)
+	}
+
 	if err != nil {
 		println("You must have a %s file to continue", configFile)
 		os.Exit(1)
