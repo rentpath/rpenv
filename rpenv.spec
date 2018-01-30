@@ -1,5 +1,5 @@
 Name:   rpenv
-Version:  3.0.1
+Version:  3.0.2
 Release:  1%{?dist}
 Summary: displays env vars set from existing environment.
 Source0: rpenv.go
@@ -39,6 +39,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jan 30 2018 Alan Voss <avoss@rentpath.com> - 3.0.2
+- Ensures config files exist with correct keys
+
 * Wed Jan 30 2018 Alan Voss <avoss@rentpath.com> - 3.0.1
 - Fixing README and various version errors in repo
 
