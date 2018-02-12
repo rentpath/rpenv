@@ -36,8 +36,6 @@ For testing with hitting the network.
 You will need to have `~/.config/.rpenv` with ini style configuration for `ci`, `qa`, and `prod` URIs
 You can find those configurations in the [rpenv configuration wiki page](https://github.com/rentpath/idg/wiki/rpenv-configuration).
 
-While the external dependencies are located in `vendor/` be aware that this project uses [govendor](https://github.com/kardianos/govendor) for dependency management.
-
 ### macOS
     brew update && brew tap rentpath/homebrew && brew install rentpath/homebrew/rpenv
 

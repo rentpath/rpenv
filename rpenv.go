@@ -11,7 +11,6 @@ import (
 	"sort"
 	"strings"
 	"syscall"
-	"github.com/jimlawless/cfg"
 )
 
 const AppVersion = "3.0.2"
@@ -29,7 +28,7 @@ func main() {
 	}
 
 	if flag.NArg() == 0 {
-		println("must provide an environment, e.g. 'ci', 'qa', or 'prod'...")
+		fmt.Println("must provide an environment, e.g. 'ci', 'qa', or 'prod'...")
 	} else {
 		envVars := envVars(envUri(flag.Args()[0]))
 
@@ -128,16 +127,10 @@ func httpRequestBodyAsString(uri string) string {
 }
 
 func getConfig(configFile string, env string) string {
-	mymap := make(map[string]string)
-	err := cfg.Load(configFile, mymap)
+	mymap := readConfig(configFile)
 
 	if mymap["ci"] == "" || mymap["qa"] == "" || mymap["prod"] == "" {
-		println("You must have a ~/.config/.rpenv with ci, qa, and prod keys")
-		os.Exit(1)
-	}
-
-	if err != nil {
-		println("You must have a %s file to continue", configFile)
+		fmt.Println("You must have a ~/.config/.rpenv with ci, qa, and prod keys")
 		os.Exit(1)
 	}
 
@@ -148,9 +141,25 @@ func getConfig(configFile string, env string) string {
 	uri := mymap[env]
 
 	if uri == "" {
-		println("Provided environment must be one of 'ci', 'qa', 'prod', or 'production'.")
+		fmt.Println("Provided environment must be one of 'ci', 'qa', 'prod', or 'production'.")
 		os.Exit(1)
 	}
 
 	return uri
+}
+
+func readConfig(configFile string) map[string]string {
+	mymap := make(map[string]string)
+	config, err := ioutil.ReadFile(configFile)
+	if err != nil {
+		fmt.Printf("You must have a %s file to continue\n", configFile)
+		panic(err)
+	}
+	configSlurp := strings.Trim(string(config), " \n")
+	for _, line := range strings.Split(configSlurp, "\n") {
+		fields := strings.Split(line, "=")
+		mymap[fields[0]] = fields[1]
+	}
+
+	return mymap
 }
