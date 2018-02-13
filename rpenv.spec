@@ -1,5 +1,5 @@
 Name:   rpenv
-Version:  3.0.2
+Version:  3.0.4
 Release:  1%{?dist}
 Summary: displays env vars set from existing environment.
 Source0: rpenv.go
@@ -39,10 +39,16 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Jan 30 2018 Alan Voss <avoss@rentpath.com> - 3.0.2
+* Mon Feb 12 2018 Alan Voss <avoss@rentpath.com> - 3.0.4
+- Fixing README and various version errors in repo
+
+* Mon Feb 12 2018 Alan Voss <avoss@rentpath.com> - 3.0.3
+- remove external dependency on jimlawless/cfg
+
+* Tue Jan 30 2018 Alan Voss <avoss@rentpath.com> - 3.0.2
 - Ensures config files exist with correct keys
 
-* Wed Jan 30 2018 Alan Voss <avoss@rentpath.com> - 3.0.1
+* Tue Jan 30 2018 Alan Voss <avoss@rentpath.com> - 3.0.1
 - Fixing README and various version errors in repo
 
 * Wed Aug 28 2018 Dan McGuire <dmcguire@rentpath.com> - 3.0.0
