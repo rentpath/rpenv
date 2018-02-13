@@ -13,7 +13,7 @@ import (
 	"syscall"
 )
 
-const AppVersion = "3.0.2"
+const AppVersion = "3.0.4"
 const ConfigPath = ".config/.rpenv"
 
 func main() {
