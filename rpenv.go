@@ -9,11 +9,12 @@ import (
 	"os/exec"
 	"os/user"
 	"sort"
+	"strconv"
 	"strings"
 	"syscall"
 )
 
-const AppVersion = "3.0.4"
+const AppVersion = "3.0.5"
 const ConfigPath = ".config/.rpenv"
 
 func main() {
@@ -44,7 +45,12 @@ func main() {
 }
 
 func envUri(env string) string {
-	usr, _ := user.Current()
+	usr, err := user.LookupId(strconv.Itoa(os.Getuid()))
+	if err != nil {
+		fmt.Printf("rpenv: %s\n", err)
+		os.Exit(6)
+	}
+
 	conf := getConfig(usr.HomeDir + "/" + ConfigPath, env)
 
 	return conf
@@ -131,7 +137,7 @@ func getConfig(configFile string, env string) string {
 
 	if mymap["ci"] == "" || mymap["qa"] == "" || mymap["prod"] == "" {
 		fmt.Println("You must have a ~/.config/.rpenv with ci, qa, and prod keys")
-		os.Exit(1)
+		os.Exit(4)
 	}
 
 	if env == "production" {
@@ -142,7 +148,7 @@ func getConfig(configFile string, env string) string {
 
 	if uri == "" {
 		fmt.Println("Provided environment must be one of 'ci', 'qa', 'prod', or 'production'.")
-		os.Exit(1)
+		os.Exit(5)
 	}
 
 	return uri
