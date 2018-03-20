@@ -1,5 +1,5 @@
 Name:   rpenv
-Version:  3.0.5
+Version:  3.1.0
 Release:  1%{?dist}
 Summary: displays env vars set from existing environment.
 Source0: rpenv.go
@@ -39,6 +39,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Mar 19 2018 Alan Voss <avoss@rentpath.com> - 3.1.0
+- Adding -skip-local flag; skips locals on output (no command passed)
+
 * Wed Feb 14 2018 Alan Voss <avoss@rentpath.com> - 3.0.5
 - Cross-compilation for linux didn't work for user dir query
 

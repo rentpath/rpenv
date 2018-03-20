@@ -14,13 +14,15 @@ import (
 	"syscall"
 )
 
-const AppVersion = "3.0.5"
+const AppVersion = "3.1.0"
 const ConfigPath = ".config/.rpenv"
 
 func main() {
 	cmdStatus := 1
 	version := flag.Bool("v", false, "Prints rpenv version")
 	longVersion := flag.Bool("version", false, "Prints rpenv version")
+	var skipLocalEnvs bool
+	flag.BoolVar(&skipLocalEnvs, "skip-local", false, "Skips local env vars from output")
 	flag.Parse()
 
 	if (*version) || (*longVersion) {
@@ -31,7 +33,7 @@ func main() {
 	if flag.NArg() == 0 {
 		fmt.Println("must provide an environment, e.g. 'ci', 'qa', or 'prod'...")
 	} else {
-		envVars := envVars(envUri(flag.Args()[0]))
+		envVars := envVars(envUri(flag.Args()[0]), skipLocalEnvs)
 
 		if flag.NArg() == 1 {
 			fmt.Println(strings.Join(envVars, "\n"))
@@ -56,7 +58,7 @@ func envUri(env string) string {
 	return conf
 }
 
-func envVars(envUri string) []string {
+func envVars(envUri string, skipLocalEnvs bool) []string {
 	rawVars := strings.Split(httpRequestBodyAsString(envUri), "\n")
 	envsMap := make(map[string]string)
 	var keys []string
@@ -69,9 +71,11 @@ func envVars(envUri string) []string {
 		}
 	}
 
-	for _, kvPair := range os.Environ() {
-		kvArray := strings.Split(kvPair, "=")
-		envsMap[kvArray[0]] = kvArray[1]
+	if !skipLocalEnvs {
+		for _, kvPair := range os.Environ() {
+			kvArray := strings.Split(kvPair, "=")
+			envsMap[kvArray[0]] = kvArray[1]
+		}
 	}
 
 	for k := range envsMap {

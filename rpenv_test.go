@@ -57,18 +57,37 @@ func TestEnvVars(t *testing.T) {
 	if !*system {
 		t.Skip()
 	} else {
-		results := envVars(envUri("ci"))
-		passes := 2
+		results := envVars(envUri("ci"), false)
+		passes := 3
 		for _, keyValue := range results {
-			if keyValue == "HOME" {
+			splitKeyValue := strings.Split(keyValue, "=")
+			key := splitKeyValue[0]
+			if key == "HOME" {
 				passes--
 			}
-			if strings.HasPrefix(keyValue, "APPLICATION") {
+			if key == "APPLICATIONS_ROOT" {
+				passes--
+			}
+			if key == "PATH" {
 				passes--
 			}
 		}
 		if passes > 0 {
-			fmt.Fprintln(os.Stderr, "Expected envVars to return environment variables, but couldn't find 'HOME' or 'APPLICATION_*' vars which should be present.")
+			fmt.Fprintln(os.Stderr, "Expected envVars with no skip local to return environment variables, but couldn't find 'HOME', 'APPLICATIONS_ROOT', or 'PATH' vars which should be present.")
+			t.Errorf("Environment variables found: %q", results)
+		}
+
+		results = envVars(envUri("ci"), true)
+		fails := 0
+		for _, keyValue := range results {
+			splitKeyValue := strings.Split(keyValue, "=")
+			key := splitKeyValue[0]
+			if key == "PATH" {
+				fails++
+			}
+		}
+		if fails > 0 {
+			fmt.Fprintln(os.Stderr, "Expected envVars with skip local to return environment variables, but those shouldn't include the 'PATH' var.")
 			t.Errorf("Environment variables found: %q", results)
 		}
 	}
