@@ -1,5 +1,5 @@
 Name:   rpenv
-Version:  3.1.0
+Version:  3.1.1
 Release:  1%{?dist}
 Summary: displays env vars set from existing environment.
 Source0: rpenv.go
@@ -39,6 +39,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 9 2018 Alan Voss <avoss@rentpath.com> - 3.1.1
+- Correcting parsing of values with = in them
+
 * Mon Mar 19 2018 Alan Voss <avoss@rentpath.com> - 3.1.0
 - Adding -skip-local flag; skips locals on output (no command passed)
 
@@ -57,7 +60,7 @@ rm -rf %{buildroot}
 * Tue Jan 30 2018 Alan Voss <avoss@rentpath.com> - 3.0.1
 - Fixing README and various version errors in repo
 
-* Wed Aug 28 2018 Dan McGuire <dmcguire@rentpath.com> - 3.0.0
+* Mon Jan 29 2018 Dan McGuire <dmcguire@rentpath.com> - 3.0.0
 - adds the jimlawless/cfg vendor dependency
 - moves urls out of the repo and into configs
 
