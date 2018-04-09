@@ -14,7 +14,7 @@ import (
 	"syscall"
 )
 
-const AppVersion = "3.1.0"
+const AppVersion = "3.1.1"
 const ConfigPath = ".config/.rpenv"
 
 func main() {
@@ -66,15 +66,15 @@ func envVars(envUri string, skipLocalEnvs bool) []string {
 
 	for _, kvPair := range rawVars {
 		if !strings.HasPrefix(kvPair, "#") && kvPair != "" {
-			kvArray := strings.Split(strings.Replace(kvPair, "\"", "", -1), "=")
-			envsMap[kvArray[0]] = kvArray[1]
+			key, value := splitSimple(strings.Replace(kvPair, "\"", "", -1), "=")
+			envsMap[key] = value
 		}
 	}
 
 	if !skipLocalEnvs {
 		for _, kvPair := range os.Environ() {
-			kvArray := strings.Split(kvPair, "=")
-			envsMap[kvArray[0]] = kvArray[1]
+			key, value := splitSimple(kvPair, "=")
+			envsMap[key] = value
 		}
 	}
 
@@ -167,9 +167,17 @@ func readConfig(configFile string) map[string]string {
 	}
 	configSlurp := strings.Trim(string(config), " \n")
 	for _, line := range strings.Split(configSlurp, "\n") {
-		fields := strings.Split(line, "=")
-		mymap[fields[0]] = fields[1]
+		key, value := splitSimple(line, "=")
+		mymap[key] = value
 	}
 
 	return mymap
+}
+
+// only splits on first instance of chr
+func splitSimple(str string, chr string) (string, string) {
+	split_up := strings.Split(str, "=")
+	key := split_up[0]
+	value := strings.Join(split_up[1:], "=")
+	return key, value
 }

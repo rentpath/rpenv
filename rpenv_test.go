@@ -108,3 +108,13 @@ func TestExecuteCommand(t *testing.T) {
 
 	restoreStd(writerStdout, writerStderr, stdout, stderr)
 }
+
+func TestSplitSimple(t *testing.T) {
+	key, value := splitSimple("SIMPLE=\"SPLIT=ALGO\"", "=")
+	if key != "SIMPLE" {
+		t.Errorf("SPLIT KEY appears incorrect")
+	}
+	if value != "\"SPLIT=ALGO\"" {
+		t.Errorf("SPLIT VALUE appears incorrect")
+	}
+}
