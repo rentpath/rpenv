@@ -1,5 +1,5 @@
 Name:   rpenv
-Version:  3.1.1
+Version:  3.1.2
 Release:  1%{?dist}
 Summary: displays env vars set from existing environment.
 Source0: rpenv.go
@@ -39,6 +39,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Apr 26 2018 Alan Voss <avoss@rentpath.com> - 3.1.2
+- always check for = in env pair before splitting
+
 * Mon Apr 9 2018 Alan Voss <avoss@rentpath.com> - 3.1.1
 - Correcting parsing of values with = in them
 
