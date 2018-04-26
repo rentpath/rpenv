@@ -65,7 +65,8 @@ func envVars(envUri string, skipLocalEnvs bool) []string {
 	formattedVars := make([]string, 0)
 
 	for _, kvPair := range rawVars {
-		if !strings.HasPrefix(kvPair, "#") && kvPair != "" {
+		kvPair = strings.TrimSpace(kvPair)
+		if !strings.HasPrefix(kvPair, "#") && strings.Contains(kvPair, "=") {
 			key, value := splitSimple(strings.Replace(kvPair, "\"", "", -1), "=")
 			envsMap[key] = value
 		}
@@ -165,7 +166,7 @@ func readConfig(configFile string) map[string]string {
 		fmt.Printf("You must have a %s file to continue\n", configFile)
 		panic(err)
 	}
-	configSlurp := strings.Trim(string(config), " \n")
+	configSlurp := strings.TrimSpace(string(config))
 	for _, line := range strings.Split(configSlurp, "\n") {
 		key, value := splitSimple(line, "=")
 		mymap[key] = value
